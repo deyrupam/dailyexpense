@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Resources\Expense\ExpenseResource;
 use App\Expense;
+use App\User;
 use Illuminate\Http\Request;
+use auth;
 
 class ExpenseController extends Controller
 {
@@ -12,12 +14,27 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+        $this->middleware('auth:web');
+    }
+
     public function index()
     {
-        // $expen = Expense::get();
-        // return $expen;
-        //return Expense::all();
-        return view('expense.index');
+
+
+        // $name = User::select('name')
+        //      ->where('id','=', $expense->user_id)
+        //      ->first();
+        //      return $name->$name;
+
+        // $data=Expense::paginate(10);
+
+        // return $user;
+
+       //return view('expense.index', compact('data','user'));
+
+
+
     }
 
     /**
@@ -27,8 +44,9 @@ class ExpenseController extends Controller
      */
     public function create()
     {
+        $id=Auth::id();
 
-        return view('expense.create');
+        return view('expense.create',['id'=>$id]);
 
     }
 
@@ -39,8 +57,21 @@ class ExpenseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
+
     {
-    //
+        $bill = new Expense;
+        $bill->transaction = $request->transaction;
+        $bill->price = $request->price;
+
+        $bill->date_purchase = $request->date_purchase;
+        $bill->note = $request->note;
+
+        $bill->user_id = $request->user_id;
+
+        $bill->save();
+
+
+        return redirect('bill/create')->with('success', 'bill generated!');
     }
 
     /**
@@ -50,9 +81,22 @@ class ExpenseController extends Controller
      * @param  \App\expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, expense $expense)
+    public function update(Request $request,$id)
     {
-        //
+        $request->validate([
+            'transaction'=>'required',
+            'price'=>'required',
+            'date_purchase'=>'required'
+        ]);
+        $bill = Expense::find($id);
+        $bill->transaction=$request->get('transaction');
+        $bill->price=$request->get('price');
+        $bill->date_purchase=$request->get('date_purchase');
+        $bill->note=$request->get('note');
+        $bill->save();
+        return redirect('/bill')->with('success', 'bill updated!');
+
+
     }
 
     /**
@@ -61,11 +105,24 @@ class ExpenseController extends Controller
      * @param  \App\expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function destroy(expense $expense)
+    public function destroy(expense $expense,$id)
     {
-        //
+        $bill = Expense::find($id);
+        $bill->delete();
+        return redirect('/bill')->with('success', 'Bill deleted!');
     }
 
+    public function edit($id)
+    {
+        $bill = Expense::find($id);
+        return view('expense.edit', compact('bill'));
+    }
+    public function show($id)
+    {
+
+        $bill = Expense::find($id);
+        return view('expense.show', compact('bill'));
+    }
     public function checkage()
     {
 

@@ -14,11 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::apiResource('/bill','ExpenseController');
-
-Route::apiResource('/bill','ExpenseController');
-
-Route::get('/abc', 'ExpenseController@create');
+Route::Resource('/bill','ExpenseController');
+Route::post('/create/bill','ExpenseController@store');
 
 Auth::routes();
 
