@@ -22,16 +22,9 @@ class ExpenseController extends Controller
     {
 
 
-        // $name = User::select('name')
-        //      ->where('id','=', $expense->user_id)
-        //      ->first();
-        //      return $name->$name;
 
-        // $data=Expense::paginate(10);
-
-        // return $user;
-
-       //return view('expense.index', compact('data','user'));
+         $data=Expense::paginate(10);
+         return view('expense.index', compact('data','user'));
 
 
 
