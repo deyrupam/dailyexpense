@@ -34,7 +34,7 @@
       <td>{{$row->transaction}}</td>
       <td>{{$row->price}}</td>
       <td>{{$row->date_purchase}}</td>
-      <td>{{$user}}</td>
+      
 
       <td><span><a href="{{action('ExpenseController@edit',$row->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></span></td>
       <td><span><a href="{{action('ExpenseController@show',$row->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></span></td>
@@ -45,6 +45,8 @@
                   <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                 </form>
             </td>
+            <td><span>{{$row->user->name}}</span></td>
+            
   </tr>
     @endforeach
  </tbody>

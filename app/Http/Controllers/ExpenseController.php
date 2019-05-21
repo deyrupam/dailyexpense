@@ -23,8 +23,12 @@ class ExpenseController extends Controller
 
 
 
-         $data=Expense::paginate(10);
-         return view('expense.index', compact('data','user'));
+        //  $data=Expense::paginate(10);
+         
+        $data = Expense::with('user')->get();
+        
+        return view('expense.index', compact('data'));
+          
 
 
 
