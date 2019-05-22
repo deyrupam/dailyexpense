@@ -8,11 +8,14 @@ use App\User;
 class Expense extends Model
 {
     protected $fillable = [
-        'transaction', 'price', 'date_purchase','note','user_id'
+        'bill', 'price', 'note','user_id'
     ];
     public function user(){
         return $this->belongsTo(User::class);
      }
+     public function setPasswordAttribute($value){
 
+        $this->attributes['password']= Hash::make($value);
+}
 
 }

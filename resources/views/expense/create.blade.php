@@ -1,6 +1,6 @@
 @extends('layouts.exp')
 @section('content')
-@include('includes.header')
+
 <!-- Jumbotron -->
 <div class="jumbotron">
 @if(\Session::has('success'))
@@ -8,13 +8,26 @@
             {{\Session::get('success')}}
         </div>
 @endif
-<h2>Generate Bill</h2>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<div class="list-group">
+  <a href="#" class="list-group-item active">
+  Generate Bill
+  </a>
+</div>
 <form method="post" action="{{url('/create/bill')}}">
 @csrf
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Bill</label>
-      <input type="text" class="form-control" name="transaction" id="transaction" placeholder="Bill name">
+      <input type="text" class="form-control" name="bill" id="bill" placeholder="Bill name">
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">price</label>
@@ -22,11 +35,10 @@
     </div>
   </div>
   <div class="form-group col-md-6">
-    <label for="inputAddress">Date</label>
-    <input type="date" class="form-control" name="date_purchase"  id="inputAddress" placeholder="1234 Main St">
-  </div>
   <div class="form-group">
-    <input type="text" class="form-control" id="inputAddress2" name="note" placeholder="Description (optional)">
+    <input type="text" class="form-control" id="note" name="note" placeholder="Description (optional)">
+  </div>
+
   </div>
   <div class="form-row">
     <div class="form-group">

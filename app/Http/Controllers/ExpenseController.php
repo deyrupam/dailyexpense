@@ -24,11 +24,14 @@ class ExpenseController extends Controller
 
 
         //  $data=Expense::paginate(10);
-         
-        $data = Expense::with('user')->get();
-        
-        return view('expense.index', compact('data'));
-          
+
+         $data = Expense::with('user')->latest()->paginate(5);
+        // return $data;
+
+        //dd($data);
+
+       return view('expense.index', compact('data'));
+
 
 
 
@@ -56,13 +59,15 @@ class ExpenseController extends Controller
     public function store(Request $request)
 
     {
+        $request->validate([
+            'bill'=>'required',
+            'price'=>'required|regex:/^\d+(\.\d{1,2})?$/'
+
+        ]);
         $bill = new Expense;
-        $bill->transaction = $request->transaction;
+        $bill->bill = $request->bill;
         $bill->price = $request->price;
-
-        $bill->date_purchase = $request->date_purchase;
         $bill->note = $request->note;
-
         $bill->user_id = $request->user_id;
 
         $bill->save();
@@ -81,14 +86,13 @@ class ExpenseController extends Controller
     public function update(Request $request,$id)
     {
         $request->validate([
-            'transaction'=>'required',
+            'bill'=>'required',
             'price'=>'required',
-            'date_purchase'=>'required'
+
         ]);
         $bill = Expense::find($id);
-        $bill->transaction=$request->get('transaction');
+        $bill->bill=$request->get('bill');
         $bill->price=$request->get('price');
-        $bill->date_purchase=$request->get('date_purchase');
         $bill->note=$request->get('note');
         $bill->save();
         return redirect('/bill')->with('success', 'bill updated!');

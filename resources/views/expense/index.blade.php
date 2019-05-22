@@ -1,7 +1,7 @@
 @extends('layouts.exp')
 
 @section('content')
-@include('includes.header')
+
 <!-- Jumbotron -->
 <div class="jumbotron">
 
@@ -26,15 +26,15 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="expenselist">
 
     @foreach($data as $row)
 
     <tr>
-      <td>{{$row->transaction}}</td>
+      <td>{{$row->bill}}</td>
       <td>{{$row->price}}</td>
-      <td>{{$row->date_purchase}}</td>
-      
+      <td>{{$row->created_at}}</td>
+
 
       <td><span><a href="{{action('ExpenseController@edit',$row->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></span></td>
       <td><span><a href="{{action('ExpenseController@show',$row->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></span></td>
@@ -46,7 +46,7 @@
                 </form>
             </td>
             <td><span>{{$row->user->name}}</span></td>
-            
+
   </tr>
     @endforeach
  </tbody>

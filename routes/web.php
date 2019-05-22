@@ -16,7 +16,9 @@ Route::get('/', function () {
 });
 Route::Resource('/bill','ExpenseController');
 Route::post('/create/bill','ExpenseController@store');
+Route::get('/transaction','TransactionController@index');
 
 Auth::routes();
+
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -17,7 +17,6 @@ class CreateExpensesTable extends Migration
             $table->bigIncrements('id');
             $table->string('transaction');
             $table->integer('price');
-            $table->dateTime('date_purchase');
             $table->text('note')->nullable();;
             $table->integer('user_id')->unsigned()->index();
             $table->enum('status', [1,0])->default(0);

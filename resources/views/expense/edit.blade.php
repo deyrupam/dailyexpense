@@ -9,7 +9,7 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Bill</label>
-      <input type="text" class="form-control" name="transaction" id="transaction" value={{$bill->transaction}}>
+      <input type="text" class="form-control" name="bill" id="bill" value={{$bill->bill}}>
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">price</label>
@@ -18,10 +18,10 @@
   </div>
   <div class="form-group col-md-6">
     <label for="inputAddress">Date</label>
-    <input type="date" class="form-control" name="date_purchase"  id="inputAddress" value={{$bill->date_purchase}}>
+    <input type="date" class="form-control" readonly name="created_at"  id="created_at" value={{$bill->created_at}}>
   </div>
   <div class="form-group">
-    <input type="text" class="form-control" id="inputAddress2" name="note" value={{$bill->note}}>
+    <input type="text" class="form-control" id="note" name="note" value={{$bill->note}}>
   </div>
 
    <button type="submit" class="btn btn-primary">Save</button>
