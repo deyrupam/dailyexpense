@@ -14,11 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::Resource('/bill','ExpenseController');
-Route::post('/create/bill','ExpenseController@store');
-Route::get('/transaction','TransactionController@index');
+Route::Resource('/bill','ExpenseController')->middleware('verified');
+Route::post('/create/bill','ExpenseController@store')->middleware('verified');
+Route::get('/transaction','TransactionController@index')->middleware('verified');
 
-Auth::routes();
+//Auth::routes();
+Auth::routes(['verify' => true]);
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
