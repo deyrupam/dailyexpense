@@ -23,3 +23,15 @@ Auth::routes(['verify' => true]);
 
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+Route::get('/send/email', 'HomeController@mail');
+Route::get('/contact',[
+    'uses'=>'ContactMessageController@create'
+]);
+Route::post('/contact',[
+    'uses'=>'ContactMessageController@store',
+    'as' =>'contact.store'
+]);
+Route::get('/seen',[
+    'uses'=>'SeenController@index',
+    'as' =>'seen.index'
+]);

@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Expense\ExpenseResource;
 use App\Expense;
 use App\User;
+use App\Notification;
+use App\Seen;
 use Illuminate\Http\Request;
+use DB;
 use auth;
 
 class ExpenseController extends Controller
@@ -64,6 +67,8 @@ class ExpenseController extends Controller
             'price'=>'required|regex:/^\d+(\.\d{1,2})?$/'
 
         ]);
+
+
         $bill = new Expense;
         $bill->bill = $request->bill;
         $bill->price = $request->price;
@@ -72,6 +77,19 @@ class ExpenseController extends Controller
 
         $bill->save();
 
+        $last_expense = DB::table('expenses')->orderBy('id', 'DESC')->first();
+
+        $notify= new Notification;
+        $notify->user_id=$last_expense->user_id;
+        $notify->expense_id=$last_expense->id;
+        $notify->save();
+
+        $last_notification = DB::table('notifications')->orderBy('id', 'DESC')->first();
+        $seen= new Seen;
+        $seen->notify_id=$last_notification ->id;
+        $seen->user_id=$last_notification ->user_id;
+        $seen->status=1;
+        $seen->save();
 
         return redirect('bill/create')->with('success', 'bill generated!');
     }
@@ -96,6 +114,7 @@ class ExpenseController extends Controller
         $bill->note=$request->get('note');
         $bill->save();
         return redirect('/bill')->with('success', 'bill updated!');
+
 
 
     }
